@@ -1,24 +1,11 @@
-# **Project 2 : Distributed Sort**
-CSE 224 Winter 2022 Project 2 Starter Code
-
+# **Distributed Sort**
 ---
 
 ## About the project
-The starter-code in this repository contains some utilities and some
-initial code in the source `netsort.go` file that you will use to create
-a **distributed sort** program. This is an extension of the sort program
-you had implemented in project 1 to a distributed peer-to-peer framework.
-In the starter code, you are provided with a docker-compose file with 4
-servers that each run the `netsort` routine.   
+This is an extension of the sort program to a distributed peer-to-peer framework.
 The final output will be a sorted file of records for each server with a
 set of records from its own input list augmented with a fraction of records
 from each of the other servers.
-
-The main objective of this project is for you  to get familiarized with 
-basic socket level programming, handling servers and clients, some popular 
-concurrency control methods that golang provides natively and some functional 
-knowledge of Docker. The starter-code, however, provides all implementation of 
-Docker/docker-compose that you will need to get your code up and running. 
 
 ---
 
@@ -28,13 +15,12 @@ Docker/docker-compose that you will need to get your code up and running.
   This project will read, sort, and write files consisting of zero or
   more records. A record is a 100 byte binary key-value pair, consisting
   of a 10-byte key and a 90-byte value. Each key should be interpreted
-  as an unsigned 10-byte (80-bit) integer. Your sort should be in ascending order,
+  as an unsigned 10-byte (80-bit) integer. The sort should be in ascending order,
   meaning that the output should have the record with the smallest key first,
   then the second-smallest, etc.
 
 - ### Distributed program specifications
-  Complete the `netsort.go` program that will concurrently run on multiple machines. The program
-  should broadly have the following architecture/specs :  
+ The program broadly have the following architecture/specs :  
   - read the input file,
   - appropriately partition the data,
   - send relevant data to peer servers,
@@ -74,37 +60,6 @@ Docker/docker-compose that you will need to get your code up and running.
   - The `config/server.yaml` file is already being read as part of the starter code into
     the `netsort` routine. Use the host/port specs to open socket connections. <br>
 
----
-
-### What is being provided as part of the starter code.
-- **Input/Output files** :
-  To do a functional verification of your `netsort` routine, you can use the `gensort` utility being provided along with 
-  the starter-code. We are providing you with testcase1 input in the `dist/testcase1` folder.
-  - **testcase1**
-    + Input  : `dist/testcase1/input-0.dat`, `dist/testcase1/input-1.dat`, `dist/testcase1/input-2.dat`, `dist/testcase1/input-3.dat`
-    + Config : config/servers.yaml
-- **Dockerfile** : This generates the docker image that would be used to run your `netsort` routine. 
-   This does not need to be altered.
-- **docker-compose.yml** : This specifies a docker network of 4 servers that run your `netsort` routine. 
-  You are free to play around with this file by changing the environment variables to test your program with different types of input.
-  - `SERVER_ID`, `INPUT_FILE_PATH`, `OUTPUT_FILE_PATH`, `CONFIG_FILE_PATH` are the variables that get passed as `os Args` to your `netsort` routine.
-  The default values defined in `docker-compose.yml` correspond to the testcase1.
-- **Utilities** : The utilities from `project 1` are being provided in `project 2` as well 
-  to make it easier for you to test your code.
-  - `Gensort` <br/>
-    `Gensort` generates random input. If the 'randseed' parameter is provided, the given seed is used to ensure deterministic output.
-    'size' can be provided as a non-negative integer to generate that many bytes of output. However human-readable strings can be used as well, such as "10 mb" for 10 megabytes, "1 gb" for one gigabyte", "256 kb" for 256 kilobytes, etc. 
-    If the specified size is not a multiple of 100 bytes, the requested size will be rounded up to the next multiple of 100. 
-    ```Usage: bin/gensort outputfile size -randseed int Random seed```
-
-  - `Showsort` <br/>
-    `Showsort` shows the records in the provided file in a human-readable format, with the key followed by a space followed by an abbreviated version of the value. 
-     ```Usage: bin/showsort inputfile```
-
-  - `Valsort` <br/>
-    `Valsort` scans the provided input file to check if it is sorted.
-    ```Usage: bin/valsort inputfile```
-  
 ---
 
 ## Building and running the program | Some basic docker commands
